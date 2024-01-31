@@ -32,9 +32,18 @@ def predict(request):
     prepared_image = prepare_img(image, target_size)
 
     predictions = model.predict(prepared_image)
-
-
-    response_data = {'predictions': predictions.tolist()}
+    out = 'out.png'
+    sav = './out/'
+    output =  tf.reshape(predictions , [256 , 256 , 3])
+    output = (output+1)/2
+    save_img(sav+out,img_to_array(output))
+    l1 =Image.open(sav+out)
+    l1  = l1.resize((50,50))
+    l1.save(sav+"path"+out) 
+    with open(sav+"path"+out ,'rb') as ass :
+        end = base64.b64encode(ass.read())
+    
+    response_data = {'predictions': str(predictions) }
 
     return Response(response_data, status=status.HTTP_200_OK)
 
