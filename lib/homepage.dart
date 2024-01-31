@@ -17,7 +17,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   List<DrawingArea> points = [];
-  late Widget predict;
+  Widget? predict;
   void display(String obe) async {
     Uint8List cb = base64Decode(obe);
     setState(() {
@@ -72,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
     try {
       var response = await http.post(url, body: body, headers: headers);
       final Map<String, dynamic> par = json.decode(response.body);
-      String ans = par['image'];
+      String ans = par['predictions'];
       display(ans);
     } catch (e) {
       return;

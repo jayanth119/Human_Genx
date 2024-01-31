@@ -27,17 +27,13 @@ def predict(request):
     image_str = json_data.get('image', '')
     image_data = base64.b64decode(image_str)
     image = Image.open(io.BytesIO(image_data))
+    target_size = (256, 256)
 
-    # Define your target size based on your model's input size
-    target_size = (224, 224)
-
-    # Prepare the image
     prepared_image = prepare_img(image, target_size)
 
-    # Make predictions using your model
     predictions = model.predict(prepared_image)
 
-    # You can customize this response based on your requirements
+
     response_data = {'predictions': predictions.tolist()}
 
     return Response(response_data, status=status.HTTP_200_OK)
