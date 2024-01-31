@@ -46,7 +46,5 @@ def predict(request):
         end = base64.b64encode(ass.read())
     
     response_data = {'predictions': str(predictions) }
-    return response_data 
-
     return Response(response_data, status=status.HTTP_200_OK)
 

@@ -73,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
       var response = await http.post(url, body: body, headers: headers);
       final Map<String, dynamic> par = json.decode(response.body);
       String ans = par['predictions'];
-      display(ans);
+      display(ans.substring(2, ans.length - 1));
     } catch (e) {
       return;
     }
