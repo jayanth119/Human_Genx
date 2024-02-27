@@ -19,18 +19,25 @@ class _MyHomePageState extends State<MyHomePage> {
   List<DrawingArea> points = [];
   Widget? predict;
   void display(String obe) async {
-    Uint8List cb = base64Decode(obe);
-    setState(() {
-      // ignore: sized_box_for_whitespace
-      predict = Container(
-        width: 256,
-        height: 256,
-        child: Image.memory(
-          cb,
-          fit: BoxFit.cover,
-        ),
-      );
-    });
+    try {
+      // Uint8List cb = base64Decode(obe);
+      setState(() {
+        print("Image Path: server/new_folder/predicted_image.png");
+        // ignore: sized_box_for_whitespace
+        predict = Container(
+          width: 256,
+          height: 256,
+          child: Image.asset(
+            "server/new_folder/predicted_image.png",
+            fit: BoxFit.cover,
+          ),
+        );
+      });
+    } catch (e) {
+      if (kDebugMode) {
+        print("error");
+      }
+    }
   }
 
   void savepng(List<DrawingArea> points) async {
@@ -62,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void get_out(var image) async {
     var data = {"image": image};
-    var url = Uri.parse('http:1200');
+    var url = Uri.http('10.0.2.2:8000', '/core');
     Map<String, String> headers = {
       "Content-type": 'application/json',
       "Accept": 'application/json',
@@ -128,6 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   ..strokeWidth = 2.0));
                           },
                         );
+                        setState(() {});
                       },
                       onPanUpdate: (details) {
                         setState(
