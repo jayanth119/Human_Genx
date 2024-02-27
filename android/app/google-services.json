@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "391038666866",
+    "project_id": "humangenx",
+    "storage_bucket": "humangenx.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:391038666866:android:b6087ad1ed1d42b7941aeb",
+        "android_client_info": {
+          "package_name": "com.example.human_genx"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChYUHRXbX8pErZWK4VZm8dk30P57IVwdU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

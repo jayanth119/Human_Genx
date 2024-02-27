@@ -2,7 +2,8 @@
 import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:human_genx/sketchpad.dart';
+import 'package:human_genx/services/services.dart';
+import 'package:human_genx/utils/sketchpad.dart';
 // ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -22,7 +23,9 @@ class _MyHomePageState extends State<MyHomePage> {
     try {
       // Uint8List cb = base64Decode(obe);
       setState(() {
-        print("Image Path: server/new_folder/predicted_image.png");
+        if (kDebugMode) {
+          print("Image Path: server/new_folder/predicted_image.png");
+        }
         // ignore: sized_box_for_whitespace
         predict = Container(
           width: 256,
@@ -89,6 +92,17 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("HumanGenx"),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Services().logout();
+            },
+            icon: const Icon(Icons.logout),
+          )
+        ],
+      ),
       body: Stack(
         children: [
           Container(
@@ -108,8 +122,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Container(
-                    width: 400,
-                    height: 400,
+                    width: 300,
+                    height: 300,
                     decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(
                         Radius.circular(20),
@@ -151,7 +165,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         );
                       },
                       onPanEnd: (details) {
-                        savepng(points);
+                        // savepng(points);
                         setState(() {
                           // Add a unique value to indicate the end of drawing
                           points.add(DrawingArea(
