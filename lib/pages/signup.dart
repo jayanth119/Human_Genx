@@ -48,6 +48,12 @@ class _SignupPageState extends State<SignupPage> {
       home: Scaffold(
         body: SingleChildScrollView(
           child: Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/Loki.jpg"),
+                fit: BoxFit.cover,
+              ),
+            ),
             padding: const EdgeInsets.symmetric(horizontal: 40),
             height: MediaQuery.of(context).size.height - 50,
             width: double.infinity,
@@ -83,7 +89,7 @@ class _SignupPageState extends State<SignupPage> {
                         controller: _user,
                         validator: (value) {
                           if (value == null || !_user.text.endsWith(".com")) {
-                            return 'Please enter some text';
+                            return 'Please Enter Valid Mail ';
                           }
                           return null;
                         },
@@ -98,8 +104,10 @@ class _SignupPageState extends State<SignupPage> {
                       TextFormField(
                         controller: _pass,
                         validator: (value) {
-                          if (value == null || !_user.text.endsWith(".com")) {
-                            return 'Please enter some text';
+                          if (value == null ||
+                              !_user.text.endsWith(".com") ||
+                              value.length < 9) {
+                            return 'Password Require min 9 character ';
                           }
                           return null;
                         },
@@ -116,10 +124,8 @@ class _SignupPageState extends State<SignupPage> {
                       TextFormField(
                         controller: _pass1,
                         validator: (value) {
-                          if (value == null ||
-                              !_user.text.endsWith(".com") ||
-                              value.length >= 9) {
-                            return 'Please enter some text';
+                          if (value == null || value.length >= 9) {
+                            return 'Password Require min 9 character';
                           }
                           if (value != _pass.text) {
                             return "password doesnot match";

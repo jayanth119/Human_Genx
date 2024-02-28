@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:human_genx/pages/signup.dart';
@@ -10,6 +12,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  late FirebaseAuth _auth;
   final bor = OutlineInputBorder(
       borderRadius: BorderRadius.circular(18), borderSide: BorderSide.none);
   final _user = TextEditingController();
@@ -24,11 +27,31 @@ class _LoginState extends State<Login> {
       );
     }
     try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: _user.text, password: _pass.text);
+      _auth = FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _user.text, password: _pass.text) as FirebaseAuth;
+      await sendEmailVerification(context);
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {
       } else if (e.code == "wrong-password") {}
+    }
+  }
+
+  Future<void> sendEmailVerification(BuildContext context) async {
+    try {
+      _auth.currentUser!.sendEmailVerification();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Email verification sent!'),
+        ),
+      );
+
+      // ignore: unused_catch_clause
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Email verification sent!'),
+        ),
+      );
     }
   }
 
@@ -38,6 +61,12 @@ class _LoginState extends State<Login> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/Loki.jpg"),
+              fit: BoxFit.cover,
+            ),
+          ),
           margin: const EdgeInsets.all(24),
           child: Form(
             key: _formKey,
@@ -75,7 +104,7 @@ class _LoginState extends State<Login> {
           controller: _user,
           validator: (value) {
             if (value == null || !_user.text.endsWith(".com")) {
-              return 'Please enter some text';
+              return 'Please enter valid gmail ';
             }
             return null;
           },
@@ -90,8 +119,8 @@ class _LoginState extends State<Login> {
         const SizedBox(height: 10),
         TextFormField(
           validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Please enter some text';
+            if (value == null || value.isEmpty || value.length <= 8) {
+              return 'Please enter valid password ';
             }
             return null;
           },

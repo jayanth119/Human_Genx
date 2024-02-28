@@ -93,6 +93,11 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        flexibleSpace: const Image(
+          image: AssetImage('assets/Loki.jpg'),
+          fit: BoxFit.cover,
+        ),
+        backgroundColor: Colors.transparent,
         title: const Text("HumanGenx"),
         actions: [
           IconButton(
@@ -103,130 +108,136 @@ class _MyHomePageState extends State<MyHomePage> {
           )
         ],
       ),
-      body: Stack(
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: Colors.accents,
-              ),
-            ),
+      //     decoration: const BoxDecoration(
+      // image: DecorationImage(
+      //   image: AssetImage("assets/Loki.jpg"),
+      //   fit: BoxFit.cover,
+      // ),
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/Loki.jpg"),
+            fit: BoxFit.cover,
           ),
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Container(
-                    width: 300,
-                    height: 300,
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(20),
+        ),
+        child: Stack(
+          children: [
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Container(
+                      width: 300,
+                      height: 300,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(20),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.4),
+                            blurRadius: 5.0,
+                            spreadRadius: 1,
+                          )
+                        ],
                       ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.4),
-                          blurRadius: 5.0,
-                          spreadRadius: 1,
-                        )
-                      ],
-                    ),
-                    child: GestureDetector(
-                      onPanDown: (details) {
-                        setState(
-                          () {
+                      child: GestureDetector(
+                        onPanDown: (details) {
+                          setState(
+                            () {
+                              points.add(DrawingArea(
+                                  point: details.localPosition,
+                                  areaPaint: Paint()
+                                    ..strokeCap = StrokeCap.round
+                                    ..isAntiAlias = true
+                                    ..color = Colors.white
+                                    ..strokeWidth = 2.0));
+                            },
+                          );
+                          setState(() {});
+                        },
+                        onPanUpdate: (details) {
+                          setState(
+                            () {
+                              points.add(DrawingArea(
+                                  point: details.localPosition,
+                                  areaPaint: Paint()
+                                    ..strokeCap = StrokeCap.round
+                                    ..isAntiAlias = true
+                                    ..color = Colors.white
+                                    ..strokeWidth = 2.0));
+                            },
+                          );
+                        },
+                        onPanEnd: (details) {
+                          // savepng(points);
+                          setState(() {
+                            // Add a unique value to indicate the end of drawing
                             points.add(DrawingArea(
-                                point: details.localPosition,
-                                areaPaint: Paint()
-                                  ..strokeCap = StrokeCap.round
-                                  ..isAntiAlias = true
-                                  ..color = Colors.white
-                                  ..strokeWidth = 2.0));
-                          },
-                        );
-                        setState(() {});
-                      },
-                      onPanUpdate: (details) {
-                        setState(
-                          () {
-                            points.add(DrawingArea(
-                                point: details.localPosition,
-                                areaPaint: Paint()
-                                  ..strokeCap = StrokeCap.round
-                                  ..isAntiAlias = true
-                                  ..color = Colors.white
-                                  ..strokeWidth = 2.0));
-                          },
-                        );
-                      },
-                      onPanEnd: (details) {
-                        // savepng(points);
-                        setState(() {
-                          // Add a unique value to indicate the end of drawing
-                          points.add(DrawingArea(
-                            point: Offset.zero,
-                            // You can use a specific point or create a unique identifier
-                            areaPaint: Paint()
-                              ..color = Colors
-                                  .transparent, // Make it transparent or use a different color
-                          ));
-                        });
-                      },
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height,
-                        child: ClipRRect(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(20)),
-                          child: CustomPaint(
-                            painter: My_TouchPad(points: points),
+                              point: Offset.zero,
+                              // You can use a specific point or create a unique identifier
+                              areaPaint: Paint()
+                                ..color = Colors
+                                    .transparent, // Make it transparent or use a different color
+                            ));
+                          });
+                        },
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height,
+                          child: ClipRRect(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(20)),
+                            child: CustomPaint(
+                              painter: My_TouchPad(points: points),
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            points.clear();
-                          });
-                        },
-                        icon: const Icon(Icons.delete),
-                        color: Colors.black,
-                      )
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: Center(
-                    child: SizedBox(
-                      height: 256,
-                      width: 256,
-                      child: predict,
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              points.clear();
+                            });
+                          },
+                          icon: const Icon(Icons.delete),
+                          color: Colors.black,
+                        )
+                      ],
                     ),
                   ),
-                )
-              ],
-            ),
-          )
-        ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: Center(
+                      child: SizedBox(
+                        height: 256,
+                        width: 256,
+                        child: predict,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
