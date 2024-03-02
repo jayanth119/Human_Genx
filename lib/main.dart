@@ -11,12 +11,12 @@ void main() async {
 // );
   await Firebase.initializeApp(
     options: const FirebaseOptions(
-        apiKey: "AIzaSyDnQJPvQEpS-v9S4j_8evKZKuHDcx3xc-o",
+        apiKey: "apikey",
         authDomain: "humangenx.firebaseapp.com",
         projectId: "humangenx",
         storageBucket: "humangenx.appspot.com",
-        messagingSenderId: "391038666866",
-        appId: "1:391038666866:web:cf387dcdee2f4881941aeb"),
+        messagingSenderId: "0000",
+        appId: "0000"),
   );
   runApp(const MyApp());
 }
@@ -45,12 +45,3 @@ class MyApp extends StatelessWidget {
 }
 
 
-
-// Platform  Firebase App Id
-// web       1:391038666866:web:cf387dcdee2f4881941aeb
-// android   1:391038666866:android:b6087ad1ed1d42b7941aeb
-// ios       1:391038666866:ios:65b8fdd63d2d5e65941aeb
-// macos     1:391038666866:ios:65b8fdd63d2d5e65941aeb
-
-// Learn more about using this file and next steps from the documentation:
-//  > https://firebase.google.com/docs/flutter/setup
